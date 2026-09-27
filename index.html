@@ -102,6 +102,29 @@ a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
 .bar>i.g{background:linear-gradient(90deg,#22d3a7,#4da3ff)}
 .bar>i.r{background:linear-gradient(90deg,#ffb020,#ff4d6d)}
 .mono{font-family:"JetBrains Mono",monospace}
+@media(max-width:640px){
+  h1{font-size:30px;letter-spacing:-1px}
+  .lede{font-size:15px}
+  .hd{flex-direction:column;gap:6px;align-items:flex-start}
+  .hd .idx{font-size:12px}
+  .card{padding:15px;border-radius:16px}
+  .kpi{padding:15px}
+  .kpi .v{font-size:26px}
+  th,td{padding:9px 7px;font-size:13px}
+  th{font-size:11px}
+  .layer-btn{padding:8px 12px;font-size:12.5px}
+  #ukMap{min-height:300px}
+  .stat-row{grid-template-columns:1fr;gap:6px}
+  .stat-row .mono{text-align:left!important}
+  .warnbox{font-size:13px;padding:14px 15px}
+  .legend{font-size:12px;gap:12px}
+  footer{font-size:12px}
+}
+@media(max-width:400px){
+  .kpi .v{font-size:23px}
+  th,td{padding:8px 5px;font-size:12px}
+}
+
 .layer-btn{background:rgba(20,28,42,.7);border:1px solid var(--line);color:var(--mut);padding:9px 16px;border-radius:11px;
   font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .25s;backdrop-filter:blur(10px)}
 .layer-btn:hover{color:var(--tx);border-color:rgba(77,163,255,.45)}
@@ -319,181 +342,139 @@ a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
 <script>
 const UAV=[["2025-01",2507,90,3],["2025-02",3907,103,3],["2025-03",4196,384,9],["2025-04",2357,357,15],["2025-05",3512,640,16],["2025-06",5412,742,14],["2025-07",6394,707,11],["2025-08",4133,687,17],["2025-09",5651,738,13],["2025-10",5298,977,18],["2025-11",5453,851,16],["2025-12",5131,925,18],["2026-01",4333,620,14],["2026-02",5160,547,11],["2026-03",5884,495,8],["2026-04",6441,579,8],["2026-05",8150,508,6],["2026-06",5749,460,8]];
 const MIS=[["весна 2025",94,38],["весна 2025",127,63],["весна 2025",131,64],["літо 2025",260,175],["літо 2025",216,128],["літо 2025",162,109],["осінь 2025",193,126],["осінь 2025",275,153],["весна 2026",142,101],["весна 2026",141,89],["весна 2026",222,116],["літо 2026",398,210],["літо 2026",93,10]];
-const MAP=[["Донецька",6877],["Запорізька",6686],["Харківська",6504],["Дніпропетровська",5565],["Сумська",4078],["Полтавська",3993],["Миколаївська",3681],["Херсонська",3575],["Кіровоградська",3344],["Чернігівська",2513],["Черкаська",2459],["Одеська",2411],["Київ",2070],["Київська",1950],["Вінницька",1482],["Житомирська",1466],["Хмельницька",1030],["Рівненська",892],["Тернопільська",842],["Волинська",800],["Чернівецька",747],["Львівська",745],["Івано-Франківська",742],["Закарпатська",664]];
 const ALERTS=[["2022-03",996],["2022-04",1751],["2022-05",1712],["2022-06",1430],["2022-07",1221],["2022-08",1579],["2022-09",1485],["2022-10",1538],["2022-11",928],["2022-12",993],["2023-01",930],["2023-02",1098],["2023-03",1393],["2023-04",789],["2023-05",1337],["2023-06",1369],["2023-07",1445],["2023-08",1916],["2023-09",1454],["2023-10",1512],["2023-11",1367],["2023-12",1633],["2024-01",1742],["2024-02",1430],["2024-03",2215],["2024-04",1753],["2024-05",2210],["2024-06",2030],["2024-07",1918],["2024-08",1895],["2024-09",1793],["2024-10",1693],["2024-11",1535],["2024-12",1421],["2025-01",1642],["2025-02",1505],["2025-03",1402],["2025-04",1500],["2025-05",1352],["2025-06",1463],["2025-07",1766],["2025-08",1117],["2025-09",705],["2025-10",715]];
-const f=n=>n.toLocaleString('uk-UA');
+const MAP=[["Донецька",6877],["Запорізька",6686],["Харківська",6504],["Дніпропетровська",5565],["Сумська",4078],["Полтавська",3993],["Миколаївська",3681],["Херсонська",3575],["Кіровоградська",3344],["Чернігівська",2513],["Черкаська",2459],["Одеська",2411],["Київ",2070],["Київська",1950],["Вінницька",1482],["Житомирська",1466],["Хмельницька",1030],["Рівненська",892],["Тернопільська",842],["Волинська",800],["Чернівецька",747],["Львівська",745],["Івано-Франківська",742],["Закарпатська",664]];
+const OBLASTS=[{"n": "Вінницька", "v": 2964, "x": 330.2, "y": 219.2, "r": 37}, {"n": "Житомирська", "v": 2932, "x": 339.2, "y": 148.6, "r": 37}, {"n": "Кіровоградська", "v": 6688, "x": 509.7, "y": 268.9, "r": 63}, {"n": "Івано-Франківська", "v": 1484, "x": 152.1, "y": 240.6, "r": 24}, {"n": "Львівська", "v": 1490, "x": 116.1, "y": 177.0, "r": 24}, {"n": "Рівненська", "v": 1784, "x": 225.0, "y": 123.1, "r": 27}, {"n": "Волинська", "v": 1600, "x": 161.1, "y": 114.1, "r": 25}, {"n": "Київ", "v": 4141, "x": 427.3, "y": 134.8, "r": 46}, {"n": "Тернопільська", "v": 1684, "x": 194.2, "y": 197.0, "r": 26}, {"n": "Чернігівська", "v": 5026, "x": 463.7, "y": 62.9, "r": 52}, {"n": "Київська", "v": 3900, "x": 412.1, "y": 152.1, "r": 44}, {"n": "Дніпропетровська", "v": 11130, "x": 641.8, "y": 272.4, "r": 87}, {"n": "Харківська", "v": 13008, "x": 697.7, "y": 166.6, "r": 96}, {"n": "Хмельницька", "v": 2060, "x": 260.1, "y": 206.0, "r": 29}, {"n": "Черкаська", "v": 4918, "x": 500.2, "y": 204.6, "r": 51}, {"n": "Одеська", "v": 4822, "x": 396.5, "y": 409.3, "r": 51}, {"n": "Запорізька", "v": 13372, "x": 646.1, "y": 315.3, "r": 98}, {"n": "Чернівецька", "v": 1494, "x": 210.3, "y": 284.1, "r": 24}, {"n": "Закарпатська", "v": 1328, "x": 37.4, "y": 261.3, "r": 22}, {"n": "Сумська", "v": 8156, "x": 630.0, "y": 103.0, "r": 71}, {"n": "Полтавська", "v": 7986, "x": 618.2, "y": 194.3, "r": 70}, {"n": "Миколаївська", "v": 7362, "x": 496.9, "y": 373.3, "r": 67}, {"n": "Донецька", "v": 13754, "x": 772.1, "y": 302.8, "r": 100}, {"n": "Луганська", "v": 2, "x": 844.6, "y": 264.8, "r": 0}, {"n": "Херсонська", "v": 7150, "x": 526.7, "y": 398.2, "r": 65}];
+const RISK=[["Одеська обл.",21],["Миколаїв",8],["Харків",5],["Київ",5],["Чернігів",4],["Миколаївська обл.",4],["Конотоп",3],["Запоріжжя",3],["Одеса",3],["Дніпропетровська обл.",3],["Трипільська ТЕС",2],["Кривий Ріг",2]];
+const REGS=[["Одеська область",21],["Миколаївська область",12],["Харківська область",6],["Київ та область",8],["Чернігівська область",6],["Дніпропетровська область",5],["Сумська область",4],["Запорізька область",3],["Львівська область",4],["Івано-Франківська область",2]];
+const SEASON={1:1.35,2:1.30,3:1.05,4:0.75,5:0.75,6:0.55,7:0.65,8:0.85,9:1.00,10:1.90,11:1.55,12:1.90};
+const CURMONTH=9;
+const f=n=>n.toLocaleString("uk-UA");
+const lvlColor=r=>r>=70?"#ff4d6d":r>=40?"#ffb020":"#22d3a7";
 const NS="http://www.w3.org/2000/svg";
+const el=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
 
-function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e}
 function chart(svg,series,opt){
+  if(!svg)return;
   const W=960,H=svg.viewBox.baseVal.height,pad={l:64,r:26,t:22,b:44};
-  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b, ymax=opt.ymax, n=opt.labels.length;
-  const X=i=>pad.l+(n<2?0:iw*i/(n-1)), Y=v=>pad.t+ih-ih*v/ymax;
+  const iw=W-pad.l-pad.r,ih=H-pad.t-pad.b,ymax=opt.ymax,n=opt.labels.length;
+  const X=idx=>pad.l+(n<2?0:iw*idx/(n-1)),Y=v=>pad.t+ih-ih*v/ymax;
   svg.innerHTML="";
   const defs=el("defs");
-  series.forEach((s,i)=>{
-    if(!s.fill) return;
-    const g=el("linearGradient",{id:"g"+i,x1:0,y1:0,x2:0,y2:1});
-    g.appendChild(el("stop",{offset:"0%","stop-color":s.color,"stop-opacity":.34}));
-    g.appendChild(el("stop",{offset:"100%","stop-color":s.color,"stop-opacity":0}));
-    defs.appendChild(g);
-  });
-  const gl=el("linearGradient",{id:"lg",x1:0,y1:0,x2:1,y2:0});
-  gl.appendChild(el("stop",{offset:"0%","stop-color":"#4da3ff"}));
-  gl.appendChild(el("stop",{offset:"100%","stop-color":"#7c5cff"}));
-  defs.appendChild(gl); svg.appendChild(defs);
-  for(let g=0;g<=4;g++){const y=pad.t+ih*g/4;
+  series.forEach((sr,si)=>{if(!sr.fill)return;
+    const g=el("linearGradient",{id:"g"+si,x1:0,y1:0,x2:0,y2:1});
+    g.appendChild(el("stop",{offset:"0%","stop-color":sr.color,"stop-opacity":.34}));
+    g.appendChild(el("stop",{offset:"100%","stop-color":sr.color,"stop-opacity":0}));
+    defs.appendChild(g);});
+  svg.appendChild(defs);
+  for(let gi=0;gi<=4;gi++){const y=pad.t+ih*gi/4;
     svg.appendChild(el("line",{x1:pad.l,y1:y,x2:W-pad.r,y2:y,stroke:"rgba(120,160,220,.13)"}));
-    const t=el("text",{x:pad.l-12,y:y+4,fill:"#8296b0","font-size":11,"text-anchor":"end","font-family":"JetBrains Mono, monospace"});
-    t.textContent=f(Math.round(ymax*(1-g/4))); svg.appendChild(t);
-  }
-  if(opt.hl){svg.appendChild(el("rect",{x:X(opt.hl[0])-iw/(n-1)/2,y:pad.t,width:Math.max(3,iw/(n-1)),height:ih,fill:"rgba(255,176,32,.10)",stroke:"rgba(255,176,32,.28)"}))}
+    const tx=el("text",{x:pad.l-12,y:y+4,fill:"#8296b0","font-size":11,"text-anchor":"end"});
+    tx.textContent=f(Math.round(ymax*(1-gi/4)));svg.appendChild(tx);}
+  if(opt.hl){svg.appendChild(el("rect",{x:X(opt.hl[0])-iw/(n-1)/2,y:pad.t,width:iw/(n-1),height:ih,fill:"rgba(255,176,32,.10)"}));}
   const every=Math.ceil(n/12);
-  opt.labels.forEach((lb,i)=>{ if(i%every) return;
-    const t=el("text",{x:X(i),y:H-14,fill:"#8296b0","font-size":10.5,"text-anchor":"middle","font-family":"JetBrains Mono, monospace"});
-    t.textContent=opt.xfmt?opt.xfmt(lb):lb; svg.appendChild(t);
+  opt.labels.forEach((lb,li)=>{if(li%every)return;
+    const tx=el("text",{x:X(li),y:H-14,fill:"#8296b0","font-size":10.5,"text-anchor":"middle"});
+    tx.textContent=opt.xfmt?opt.xfmt(lb):lb;svg.appendChild(tx);});
+  series.forEach((sr,si)=>{const pts=sr.vals.map((v,vi)=>[X(vi),Y(v)]);
+    if(sr.fill){let d="M"+pts.map(p=>p.join(",")).join(" L");
+      d+=" L"+X(n-1)+","+(pad.t+ih)+" L"+X(0)+","+(pad.t+ih)+" Z";
+      svg.appendChild(el("path",{d:d,fill:"url(#g"+si+")"}));}
+    svg.appendChild(el("path",{d:"M"+pts.map(p=>p.join(",")).join(" L"),fill:"none",stroke:sr.color,"stroke-width":sr.w||2.4,"stroke-linecap":"round","stroke-linejoin":"round"}));
+    if(sr.dots)pts.forEach(p=>svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:3.1,fill:"#05070c",stroke:sr.color,"stroke-width":2})));});
+}
+
+function renderAll(){
+  chart(document.getElementById("cUav"),[{vals:UAV.map(r=>r[1]),color:"#4da3ff",fill:true},{vals:UAV.map(r=>r[2]),color:"#ff4d6d",dots:true}],{ymax:9000,labels:UAV.map(r=>r[0]),xfmt:v=>v.slice(2)});
+  chart(document.getElementById("cMis"),[{vals:MIS.map(r=>r[1]),color:"#4da3ff",fill:true},{vals:MIS.map(r=>r[2]),color:"#22d3a7",dots:true}],{ymax:420,labels:MIS.map((r,idx)=>"#"+idx)});
+  chart(document.getElementById("cAlert"),[{vals:ALERTS.map(r=>r[1]),color:"#4da3ff",fill:true}],{ymax:2600,labels:ALERTS.map(r=>r[0]),xfmt:v=>v.slice(2),hl:[43,44]});
+
+  const tU=document.getElementById("tUav");
+  if(tU)tU.innerHTML="<thead><tr><th>Місяць</th><th class='num'>Запущено</th><th class='num'>Влучань</th><th class='num'>Частка</th></tr></thead><tbody>"+
+    UAV.map(r=>{const c=r[3]>=15?"hi":r[3]>=10?"mid":"lo";
+      return "<tr><td class='mono'>"+r[0]+"</td><td class='num'>"+f(r[1])+"</td><td class='num' style='color:#ff4d6d'>"+f(r[2])+"</td><td class='num'><span class='pill "+c+"'>"+r[3]+"%</span></td></tr>";}).join("")+"</tbody>";
+
+  const tM=document.getElementById("tMis");
+  if(tM)tM.innerHTML="<thead><tr><th>Період</th><th class='num'>Запущено</th><th class='num'>Перехоплено</th><th class='num'>Частка</th></tr></thead><tbody>"+
+    MIS.map(r=>{const pc=Math.round(100*r[2]/r[1]);const c=pc>=60?"lo":pc>=45?"mid":"hi";
+      return "<tr><td>"+r[0]+"</td><td class='num'>"+r[1]+"</td><td class='num' style='color:#22d3a7'>"+r[2]+"</td><td class='num'><span class='pill "+c+"'>"+pc+"%</span></td></tr>";}).join("")+"</tbody>";
+
+  const tMap=document.getElementById("tMap");
+  if(tMap){const mx=MAP[0][1];
+    tMap.innerHTML="<thead><tr><th>Регіон</th><th class='num'>Тривог</th><th style='width:44%'>Відносна інтенсивність</th></tr></thead><tbody>"+
+      MAP.map(r=>"<tr><td>"+r[0]+"</td><td class='num'>"+f(r[1])+"</td><td><div class='bar'><i class='g' data-w='"+(100*r[1]/mx).toFixed(0)+"%'></i></div></td></tr>").join("")+"</tbody>";}
+
+  const tR=document.getElementById("tRisk");
+  if(tR){const rm=Math.max.apply(null,RISK.map(r=>r[1]));
+    tR.innerHTML="<thead><tr><th>Місце</th><th class='num'>Ударів по енергетиці</th><th style='width:42%'>Рівень</th></tr></thead><tbody>"+
+      RISK.map(r=>"<tr><td>"+r[0]+"</td><td class='num' style='color:#ff4d6d'>"+r[1]+"</td><td><div class='bar'><i class='r' data-w='"+(100*r[1]/rm).toFixed(0)+"%'></i></div></td></tr>").join("")+"</tbody>";}
+
+  const fEl=document.getElementById("forecast");
+  if(fEl){const CATS=[{n:"Енергетика та підстанції",fr:113,se:true},{n:"Порти і припортова логістика",fr:105,se:false},{n:"Промислові об'єкти",fr:157,se:false},{n:"Цивільна забудова",fr:394,se:false}];
+    const maxF=Math.max.apply(null,CATS.map(c=>c.fr));
+    fEl.innerHTML=CATS.map(c=>{const sc=c.fr*(c.se?SEASON[CURMONTH]:1);const pc=Math.min(99,Math.round(100*sc/(maxF*SEASON[10])));
+      const col=lvlColor(pc);const lbl=pc>=60?"висока":pc>=35?"середня":"помірна";
+      return "<div class='stat-row'><div><b>"+c.n+"</b><div class='bar' style='margin-top:8px'><i style='width:0;background:"+col+"' data-w='"+pc+"%'></i></div></div><div class='mono' style='text-align:right;color:"+col+"'>"+lbl+"<br><span class='note'>"+pc+"%</span></div></div>";}).join("");}
+
+  const rEl=document.getElementById("fcRegions");
+  if(rEl){const rm=Math.max.apply(null,REGS.map(r=>r[1]));
+    rEl.innerHTML="<div class='scroll'><table><thead><tr><th>Регіон</th><th class='num'>Індекс уваги</th><th style='width:40%'>Рівень</th></tr></thead><tbody>"+
+      REGS.map(r=>{const pc=Math.round(100*r[1]/rm);const col=lvlColor(pc);
+        return "<tr><td>"+r[0]+"</td><td class='num' style='color:"+col+"'>"+r[1]+"</td><td><div class='bar'><i style='background:"+col+"' data-w='"+pc+"%'></i></div></td></tr>";}).join("")+"</tbody></table></div>";}
+}
+
+let layer="alerts";
+function drawMap(){
+  const svgU=document.getElementById("ukMap");
+  if(!svgU)return;
+  const tip=document.getElementById("mapTip");
+  const maxV=Math.max.apply(null,OBLASTS.map(o=>o.v));
+  let h="";
+  const title=layer==="risk"?"Прогноз ризику · вересень → жовтень":layer==="both"?"Тривоги + прогноз ризику":"Повітряні тривоги за областями";
+  h+="<text x='40' y='40' fill='#8296b0' font-size='13' font-weight='700'>"+title+"</text>";
+  OBLASTS.forEach(o=>{
+    const r=9+26*Math.pow(o.v/maxV,.55);
+    const t=o.v/maxV;
+    const base=layer==="risk"?lvlColor(o.r):"rgb("+Math.round(60+195*t)+","+Math.round(160-90*t)+","+Math.round(255-160*t)+")";
+    h+="<circle class='mapOblast' cx='"+o.x+"' cy='"+o.y+"' r='"+r+"' fill='"+base+"' fill-opacity='"+(layer==="risk"?0.85:0.75)+"' stroke='rgba(5,7,12,.85)' stroke-width='1.5' data-n='"+o.n+"' data-v='"+o.v+"' data-r='"+o.r+"'/>";
+    if(layer!=="alerts"&&o.r>=70)h+="<circle cx='"+o.x+"' cy='"+o.y+"' r='"+(r+6)+"' fill='none' stroke='#ff4d6d' stroke-width='1.5' stroke-opacity='.6'/>";
+    h+="<text x='"+o.x+"' y='"+(o.y+3.5)+"' fill='#06121f' font-size='"+(r>20?10.5:8.5)+"' font-weight='800' text-anchor='middle' pointer-events='none'>"+o.n.slice(0,4)+"</text>";
   });
-  series.forEach((s,i)=>{
-    const pts=s.vals.map((v,k)=>[X(k),Y(v)]);
-    if(s.fill){const d="M"+pts.map(p=>p.join(",")).join(" L")+` L${X(n-1)},${pad.t+ih} L${X(0)},${pad.t+ih} Z`;
-      svg.appendChild(el("path",{d,fill:"url(#g"+i+")"}));}
-    const line=el("path",{d:"M"+pts.map(p=>p.join(",")).join(" L"),fill:"none",
-      stroke:s.color,"stroke-width":s.w||2.4,"stroke-linecap":"round","stroke-linejoin":"round"});
-    svg.appendChild(line);
-    if(s.dots) pts.forEach(p=>svg.appendChild(el("circle",{cx:p[0],cy:p[1],r:3.1,fill:"#05070c",stroke:s.color,"stroke-width":2})));
+  svgU.innerHTML=h;
+  svgU.querySelectorAll(".mapOblast").forEach(nodeEl=>{
+    nodeEl.addEventListener("mousemove",()=>{
+      const box=svgU.getBoundingClientRect();
+      const rect=nodeEl.getBoundingClientRect();
+      tip.innerHTML="<b style='color:#eaf1fb'>"+nodeEl.dataset.n+" область</b><br><span style='color:#7cc0ff'>Тривог: <b>"+(+nodeEl.dataset.v).toLocaleString("uk-UA")+"</b></span><br><span style='color:"+lvlColor(+nodeEl.dataset.r)+"'>Індекс ризику: <b>"+nodeEl.dataset.r+"</b></span>";
+      tip.style.opacity=1;
+      tip.style.left=(rect.left-box.left+16)+"px";
+      tip.style.top=(rect.top-box.top-10)+"px";
+    });
+    nodeEl.addEventListener("mouseleave",()=>{tip.style.opacity=0;});
   });
 }
-chart(document.getElementById('cUav'),[
-  {vals:UAV.map(r=>r[1]),color:"#4da3ff",fill:true},
-  {vals:UAV.map(r=>r[2]),color:"#ff4d6d",dots:true}],
-  {ymax:9000,labels:UAV.map(r=>r[0]),xfmt:s=>s.slice(2)});
-chart(document.getElementById('cMis'),[
-  {vals:MIS.map(r=>r[1]),color:"#4da3ff",fill:true},
-  {vals:MIS.map(r=>r[2]),color:"#22d3a7",dots:true}],
-  {ymax:420,labels:MIS.map((r,i)=>"№"+(i+1))});
-chart(document.getElementById('cAlert'),[{vals:ALERTS.map(r=>r[1]),color:"#4da3ff",fill:true}],
-  {ymax:2600,labels:ALERTS.map(r=>r[0]),xfmt:s=>s.slice(2),hl:[43,44]});
 
-// tables
-const tU=document.getElementById('tUav');
-tU.innerHTML="<thead><tr><th>Місяць</th><th class='num'>Запущено</th><th class='num'>Влучань</th><th class='num'>Частка</th></tr></thead><tbody>"+
-UAV.map(r=>{const c=r[3]>=15?'hi':r[3]>=10?'mid':'lo';
- return `<tr><td class="mono">${r[0]}</td><td class='num'>${f(r[1])}</td><td class='num' style="color:#ff4d6d">${f(r[2])}</td><td class='num'><span class="pill ${c}">${r[3]}%</span></td></tr>`}).join("")+"</tbody>";
+document.querySelectorAll(".layer-btn").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".layer-btn").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");layer=b.dataset.layer;drawMap();
+}));
 
-const tM=document.getElementById('tMis');
-tM.innerHTML="<thead><tr><th>Період</th><th class='num'>Запущено</th><th class='num'>Перехоплено</th><th class='num'>Частка</th></tr></thead><tbody>"+
-MIS.map(r=>{const p=Math.round(100*r[2]/r[1]);const c=p>=60?'lo':p>=45?'mid':'hi';
- return `<tr><td>${r[0]}</td><td class='num'>${r[1]}</td><td class='num' style="color:#22d3a7">${r[2]}</td><td class='num'><span class="pill ${c}">${p}%</span></td></tr>`}).join("")+"</tbody>";
-
-const tMap=document.getElementById('tMap');
-const mx=MAP[0][1];
-tMap.innerHTML="<thead><tr><th>Регіон</th><th class='num'>Тривог</th><th style='width:44%'>Відносна інтенсивність</th></tr></thead><tbody>"+
-MAP.map(r=>`<tr><td>${r[0]}</td><td class='num'>${f(r[1])}</td><td><div class="bar"><i class="g" data-w="${(100*r[1]/mx).toFixed(0)}%"></i></div></td></tr>`).join("")+"</tbody>";
-
-// counters
-document.querySelectorAll('.kpi .v[data-c]').forEach(e=>{
-  const target=+e.dataset.c, t0=performance.now(), dur=1500;
-  function tick(t){const p=Math.min(1,(t-t0)/dur);const ease=1-Math.pow(1-p,3);
-    e.textContent=f(Math.round(target*ease)); if(p<1) requestAnimationFrame(tick)}
+document.querySelectorAll(".kpi .v[data-c]").forEach(e=>{
+  const target=+e.dataset.c,t0=performance.now(),dur=1500;
+  function tick(t){const pp=Math.min(1,(t-t0)/dur);const ease=1-Math.pow(1-pp,3);
+    e.textContent=f(Math.round(target*ease));if(pp<1)requestAnimationFrame(tick);}
   requestAnimationFrame(tick);
 });
 
-
-const RISK=[["Одеська обл.",21],["Миколаїв",8],["Харків",5],["Київ",5],["Чернігів",4],["Миколаївська обл.",4],["Конотоп",3],["Запоріжжя",3],["Одеса",3],["Дніпропетровська обл.",3],["Трипільська ТЕС",2],["Кривий Ріг",2]];
-const tR=document.getElementById('tRisk');
-if(tR){const rm=Math.max(...RISK.map(r=>r[1]));
-tR.innerHTML="<thead><tr><th>Місце</th><th class='num'>Ударів по енергетиці</th><th style='width:42%'>Відносний рівень</th></tr></thead><tbody>"+
-RISK.map(r=>`<tr><td>${r[0]}</td><td class='num' style="color:#ff4d6d">${r[1]}</td><td><div class="bar"><i class="r" data-w="${(100*r[1]/rm).toFixed(0)}%"></i></div></td></tr>`).join("")+"</tbody>";}
-
-
-// --- forecast model: freq x seasonal coefficient
-const SEASON={1:1.35,2:1.30,3:1.05,4:0.75,5:0.75,6:0.55,7:0.65,8:0.85,9:1.00,10:1.90,11:1.55,12:1.90};
-const CURMONTH=9;
-const CATS=[
- {n:"Енергетика та підстанції", f:113, base:"seasonal"},
- {n:"Порти і припортова логістика", f:105, base:"flat"},
- {n:"Промислові об'єкти", f:157, base:"flat"},
- {n:"Цивільна забудова", f:394, base:"flat"}
-];
-const maxF=Math.max(...CATS.map(c=>c.f));
-const fEl=document.getElementById('forecast');
-if(fEl){
- fEl.innerHTML=CATS.map(c=>{
-  const seasonal=c.base==="seasonal"?SEASON[CURMONTH]:1;
-  const score=c.f*seasonal;
-  const pct=Math.min(99,Math.round(100*score/(maxF*SEASON[10])));
-  const lvl=pct>=60?'#ff4d6d':pct>=35?'#ffb020':'#22d3a7';
-  const lbl=pct>=60?'висока':pct>=35?'середня':'помірна';
-  return `<div class="stat-row"><div><b>${c.n}</b>
-   <div class="bar" style="margin-top:8px"><i style="width:0;background:linear-gradient(90deg,${lvl},${lvl}99)" data-w="${pct}%"></i></div></div>
-   <div class="mono" style="text-align:right;white-space:nowrap;color:${lvl}">${lbl}<br><span class="note">${pct}%</span></div></div>`;
- }).join("");
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}}),{threshold:.08});
+  document.querySelectorAll("section").forEach(sec=>io.observe(sec));
+  const io2=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.style.width=x.target.dataset.w;io2.unobserve(x.target);}}),{threshold:.2});
+  document.querySelectorAll(".bar>i").forEach(b=>io2.observe(b));
 }
-const REGS=[["Одеська область",21],["Миколаївська область",12],["Харківська область",6],["Київ та область",8],["Чернігівська область",6],["Дніпропетровська область",5],["Сумська область",4],["Запорізька область",3],["Львівська область",4],["Івано-Франківська область",2]];
-const rEl=document.getElementById('fcRegions');
-if(rEl){const rm=Math.max(...REGS.map(r=>r[1]));
- rEl.innerHTML="<div class='scroll'><table><thead><tr><th>Регіон</th><th class='num'>Індекс уваги</th><th style='width:40%'>Рівень</th></tr></thead><tbody>"+
- REGS.map(r=>{const p=Math.round(100*r[1]/rm);const lvl=p>=70?'#ff4d6d':p>=40?'#ffb020':'#22d3a7';
-  return `<tr><td>${r[0]}</td><td class='num' style="color:${lvl}">${r[1]}</td><td><div class="bar"><i style="background:linear-gradient(90deg,${lvl},${lvl}99)" data-w="${p}%"></i></div></td></tr>`}).join("")+"</tbody></table></div>";}
 
-
-// --- interactive Ukraine oblast map
-const OBLASTS=[{"n": "Вінницька", "v": 2964, "x": 330.2, "y": 219.2, "r": 37}, {"n": "Житомирська", "v": 2932, "x": 339.2, "y": 148.6, "r": 37}, {"n": "Кіровоградська", "v": 6688, "x": 509.7, "y": 268.9, "r": 63}, {"n": "Івано-Франківська", "v": 1484, "x": 152.1, "y": 240.6, "r": 24}, {"n": "Львівська", "v": 1490, "x": 116.1, "y": 177.0, "r": 24}, {"n": "Рівненська", "v": 1784, "x": 225.0, "y": 123.1, "r": 27}, {"n": "Волинська", "v": 1600, "x": 161.1, "y": 114.1, "r": 25}, {"n": "Київ", "v": 4141, "x": 427.3, "y": 134.8, "r": 46}, {"n": "Тернопільська", "v": 1684, "x": 194.2, "y": 197.0, "r": 26}, {"n": "Чернігівська", "v": 5026, "x": 463.7, "y": 62.9, "r": 52}, {"n": "Київська", "v": 3900, "x": 412.1, "y": 152.1, "r": 44}, {"n": "Дніпропетровська", "v": 11130, "x": 641.8, "y": 272.4, "r": 87}, {"n": "Харківська", "v": 13008, "x": 697.7, "y": 166.6, "r": 96}, {"n": "Хмельницька", "v": 2060, "x": 260.1, "y": 206.0, "r": 29}, {"n": "Черкаська", "v": 4918, "x": 500.2, "y": 204.6, "r": 51}, {"n": "Одеська", "v": 4822, "x": 396.5, "y": 409.3, "r": 51}, {"n": "Запорізька", "v": 13372, "x": 646.1, "y": 315.3, "r": 98}, {"n": "Чернівецька", "v": 1494, "x": 210.3, "y": 284.1, "r": 24}, {"n": "Закарпатська", "v": 1328, "x": 37.4, "y": 261.3, "r": 22}, {"n": "Сумська", "v": 8156, "x": 630.0, "y": 103.0, "r": 71}, {"n": "Полтавська", "v": 7986, "x": 618.2, "y": 194.3, "r": 70}, {"n": "Миколаївська", "v": 7362, "x": 496.9, "y": 373.3, "r": 67}, {"n": "Донецька", "v": 13754, "x": 772.1, "y": 302.8, "r": 100}, {"n": "Луганська", "v": 2, "x": 844.6, "y": 264.8, "r": 0}, {"n": "Херсонська", "v": 7150, "x": 526.7, "y": 398.2, "r": 65}];
-const svgU=document.getElementById('ukMap');
-const tip=document.getElementById('mapTip');
-const maxV=Math.max(...OBLASTS.map(o=>o.v));
-let layer="alerts";
-const lvlColor=r=> r>=70?"#ff4d6d": r>=40?"#ffb020":"#22d3a7";
-function radius(o){return 9+26*Math.pow(o.v/maxV,.55)}
-function drawMap(){
-  let h='';
-  h+=`<text x="40" y="40" fill="#8296b0" font-size="13" font-weight="700" font-family="Manrope,sans-serif">${
-    layer==="risk"?"Прогноз ризику · вересень → жовтень":layer==="both"?"Тривоги + прогноз ризику":"Повітряні тривоги за областями"}</text>`;
-  OBLASTS.forEach(o=>{
-    const r=radius(o);
-    const rr=o.r; // risk index
-    const base=layer==="risk"?lvlColor(rr):layer==="both"?`rgb(${Math.round(60+195*o.v/maxV)},${Math.round(160-90*o.v/maxV)},${Math.round(255-160*o.v/maxV)})`:`rgb(${Math.round(60+195*o.v/maxV)},${Math.round(160-90*o.v/maxV)},${Math.round(255-160*o.v/maxV)})`;
-    const op=layer==="risk"?0.85:0.75;
-    h+=`<circle class="mapOblast" cx="${o.x}" cy="${o.y}" r="${r}" fill="${base}" fill-opacity="${op}" stroke="rgba(5,7,12,.85)" stroke-width="1.5"
-        data-n="${o.n}" data-v="${o.v}" data-r="${o.r}"/>`;
-    if(layer!=="alerts" && o.r>=70){
-      h+=`<circle cx="${o.x}" cy="${o.y}" r="${r+6}" fill="none" stroke="#ff4d6d" stroke-width="1.5" stroke-opacity=".6">
-           <animate attributeName="r" values="${r+4};${r+13};${r+4}" dur="2.6s" repeatCount="indefinite"/>
-           <animate attributeName="stroke-opacity" values=".6;0;.6" dur="2.6s" repeatCount="indefinite"/></circle>`;
-    }
-    h+=`<text x="${o.x}" y="${o.y+3.5}" fill="#06121f" font-size="${r>20?10.5:8.5}" font-weight="800" text-anchor="middle" pointer-events="none">${o.n.slice(0,4)}</text>`;
-  });
-  svgU.innerHTML=h;
-  svgU.querySelectorAll('.mapOblast').forEach(el=>{
-    el.addEventListener('mousemove',ev=>{
-      const box=svgU.getBoundingClientRect();
-      const scale=box.width/900;
-      tip.innerHTML=`<b style="color:#eaf1fb">${el.dataset.n} область</b><br>
-        <span style="color:#7cc0ff">Тривог: <b>${(+el.dataset.v).toLocaleString('uk-UA')}</b></span><br>
-        <span style="color:${lvlColor(+el.dataset.r)}">Індекс ризику: <b>${el.dataset.r}</b></span>`;
-      tip.style.opacity=1;
-      tip.style.left=(el.getBoundingClientRect().left-box.left+16)+'px';
-      tip.style.top=(el.getBoundingClientRect().top-box.top-10)+'px';
-    });
-    el.addEventListener('mouseleave',()=>{tip.style.opacity=0});
-  });
-}
-document.querySelectorAll('.layer-btn').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.layer-btn').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active'); layer=b.dataset.layer; drawMap();
-}));
-
-// reveal + bars
-if('IntersectionObserver' in window){
-  document.body.classList.add('js-anim');
-  const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
-  document.querySelectorAll('section').forEach(s=>io.observe(s));
-  setTimeout(()=>document.querySelectorAll('section').forEach(s=>s.classList.add('in')),1800);
-}
-const io2=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.style.width=x.target.dataset.w;io2.unobserve(x.target)}}),{threshold:.4});
-document.querySelectorAll('.bar>i').forEach(b=>io2.observe(b));
-
-try{drawMap();}catch(e){console.error("map:",e)}
+try{renderAll();}catch(e){console.error("render:",e);}
+try{drawMap();}catch(e){console.error("map:",e);}
 </script>
 </body>
 </html>
