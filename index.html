@@ -478,7 +478,6 @@ function drawMap(){
     el.addEventListener('mouseleave',()=>{tip.style.opacity=0});
   });
 }
-drawMap();
 document.querySelectorAll('.layer-btn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.layer-btn').forEach(x=>x.classList.remove('active'));
   b.classList.add('active'); layer=b.dataset.layer; drawMap();
@@ -493,6 +492,8 @@ if('IntersectionObserver' in window){
 }
 const io2=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.style.width=x.target.dataset.w;io2.unobserve(x.target)}}),{threshold:.4});
 document.querySelectorAll('.bar>i').forEach(b=>io2.observe(b));
+
+try{drawMap();}catch(e){console.error("map:",e)}
 </script>
 </body>
 </html>
