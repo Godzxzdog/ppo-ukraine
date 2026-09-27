@@ -173,8 +173,65 @@ a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
   </div>
 </section>
 
+
 <section>
-  <div class="hd"><span class="idx">07</span><div><h2>Як читати ці цифри</h2></div></div>
+  <div class="hd"><span class="idx">07</span><div><h2>Прогноз і зони ризику</h2><p>Куди били останнім часом і де може бути небезпечно</p></div></div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="note" style="margin-bottom:6px"><b style="color:#eaf1fb">Сезонний індикатор</b> — вересень: входимо у вікно зростання</div>
+    <div class="bar" style="height:12px"><i class="r" data-w="86%"></i></div>
+    <div class="legend" style="margin-top:10px">
+      <span><i class="dot" style="background:#22d3a7"></i>літо 2025: 2–4 удари/міс</span>
+      <span><i class="dot" style="background:#ff4d6d"></i>жовт 2025 – лют 2026: 10–19/міс (пік)</span>
+      <span><i class="dot" style="background:#ffb020"></i>зараз: розгін сезону</span>
+    </div>
+  </div>
+
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-bottom:16px">
+    <div class="card"><div class="note" style="margin-bottom:8px">Цивільна забудова</div>
+      <div class="mono" style="font-size:26px;color:#ff4d6d">394</div><div class="note">влучань за рік</div>
+      <div class="bar" style="margin-top:10px"><i class="r" data-w="100%"></i></div></div>
+    <div class="card"><div class="note" style="margin-bottom:8px">Промисловість</div>
+      <div class="mono" style="font-size:26px;color:#ffb020">157</div><div class="note">влучань за рік</div>
+      <div class="bar" style="margin-top:10px"><i data-w="40%"></i></div></div>
+    <div class="card"><div class="note" style="margin-bottom:8px">Енергетика</div>
+      <div class="mono" style="font-size:26px;color:#ff4d6d">113</div><div class="note">влучань за рік</div>
+      <div class="bar" style="margin-top:10px"><i class="r" data-w="29%"></i></div></div>
+    <div class="card"><div class="note" style="margin-bottom:8px">Порти / логістика</div>
+      <div class="mono" style="font-size:26px;color:#ffb020">105</div><div class="note">влучань за рік</div>
+      <div class="bar" style="margin-top:10px"><i data-w="27%"></i></div></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 14px;font-size:16px;color:#eaf1fb">Де найгарячіше (енергетика, останній рік)</h3>
+    <div class="scroll"><table id="tRisk"></table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin:0 0 14px;font-size:16px;color:#eaf1fb">Категорії об'єктів, по яких уже били — і по яких є патерн</h3>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+      <div style="border-left:3px solid #ff4d6d;padding-left:14px">
+        <b style="color:#ff8fa3">Високий ризик</b>
+        <div class="note" style="margin-top:6px">Великі підстанції 330/750 кВ · ТЕЦ і ТЕС · газосховища та газорозподільні станції · об'єкти ДТЕК · дата-центри та вузли зв'язку</div>
+      </div>
+      <div style="border-left:3px solid #ffb020;padding-left:14px">
+        <b style="color:#ffd98a">Середній ризик</b>
+        <div class="note" style="margin-top:6px">Порти та припортова інфраструктура · залізничні вузли й депо · промислові кластери · склади й термінали</div>
+      </div>
+      <div style="border-left:3px solid #8296b0;padding-left:14px">
+        <b style="color:#aebfd4">Постійний фон</b>
+        <div class="note" style="margin-top:6px">Житлова забудова · дитсадки, школи, лікарні · адмінбудівлі — страждають від уламків і прямих ударів постійно</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warnbox" style="margin-top:16px">
+    <b>Чесно про цей блок.</b> Це аналіз <b>історичних патернів</b> із відкритих зведень — не розвідка і не точний прогноз. Удари — це рішення противника, а не статистика: дані не «знають», куди полетить наступного разу. Використовуйте блок як орієнтир для уважності, а не як гарантію безпеки. Офіційні попередження завжди мають пріоритет.
+  </div>
+</section>
+
+<section>
+  <div class="hd"><span class="idx">08</span><div><h2>Як читати ці цифри</h2></div></div>
   <div class="card note">
     <p><b style="color:#eaf1fb">«Збито» ≠ «безпечно».</b> Уламки перехоплених цілей убивають людей і руйнують будинки. Перехоплення — це не нульовий результат.</p>
     <p><b style="color:#eaf1fb">Ракети небезпечніші за дрони.</b> Балістика та наднизьковисотні ракети перехоплюються суттєво гірше — саме вони завдають найважчих ударів.</p>
@@ -272,6 +329,13 @@ document.querySelectorAll('.kpi .v[data-c]').forEach(e=>{
     e.textContent=f(Math.round(target*ease)); if(p<1) requestAnimationFrame(tick)}
   requestAnimationFrame(tick);
 });
+
+
+const RISK=[["Одеська обл.",21],["Миколаїв",8],["Харків",5],["Київ",5],["Чернігів",4],["Миколаївська обл.",4],["Конотоп",3],["Запоріжжя",3],["Одеса",3],["Дніпропетровська обл.",3],["Трипільська ТЕС",2],["Кривий Ріг",2]];
+const tR=document.getElementById('tRisk');
+if(tR){const rm=Math.max(...RISK.map(r=>r[1]));
+tR.innerHTML="<thead><tr><th>Місце</th><th class='num'>Ударів по енергетиці</th><th style='width:42%'>Відносний рівень</th></tr></thead><tbody>"+
+RISK.map(r=>`<tr><td>${r[0]}</td><td class='num' style="color:#ff4d6d">${r[1]}</td><td><div class="bar"><i class="r" data-w="${(100*r[1]/rm).toFixed(0)}%"></i></div></td></tr>`).join("")+"</tbody>";}
 
 // reveal + bars
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
