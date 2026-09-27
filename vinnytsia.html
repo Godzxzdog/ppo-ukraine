@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вінницька область — повітряні тривоги</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070c;--card:rgba(20,28,42,.62);--line:rgba(120,160,220,.14);--tx:#eaf1fb;--mut:#8296b0;--acc:#4da3ff;--warn:#ffb020;--bad:#ff4d6d;--ok:#22d3a7}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 Manrope,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 12% -5%,rgba(77,163,255,.20),transparent 60%),radial-gradient(800px 500px at 92% 8%,rgba(124,92,255,.16),transparent 62%),radial-gradient(1000px 700px at 50% 110%,rgba(34,211,167,.10),transparent 60%),linear-gradient(180deg,#05070c,#070b13 40%,#05070c)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;background-image:linear-gradient(rgba(120,160,220,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,160,220,.05) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 78%)}
+.wrap{max-width:1080px;margin:0 auto;padding:34px 20px 90px}
+a.back{display:inline-flex;align-items:center;gap:8px;color:var(--acc);text-decoration:none;font-size:14px;font-weight:600;margin-bottom:22px}
+a.back:hover{text-decoration:underline}
+.badge{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border:1px solid var(--line);border-radius:999px;background:rgba(20,28,42,.6);backdrop-filter:blur(14px);font-size:12.5px;color:var(--mut);letter-spacing:.3px}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 12px var(--ok)}
+h1{font-size:clamp(30px,5vw,54px);line-height:1.05;margin:20px 0 12px;font-weight:800;letter-spacing:-1.8px}
+h1 .g{background:linear-gradient(100deg,#4da3ff,#7c5cff 50%,#22d3a7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--mut);font-size:16.5px;max-width:680px;margin:0}
+section{margin-top:52px}
+h2{font-size:clamp(20px,3vw,28px);margin:0 0 18px;font-weight:800;letter-spacing:-.6px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;backdrop-filter:blur(18px);position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--acc),#7c5cff,transparent)}
+.kpi .lbl{color:var(--mut);font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+.kpi .v{font-family:"JetBrains Mono",monospace;font-size:clamp(26px,4vw,36px);font-weight:700;letter-spacing:-1.2px;margin:10px 0 2px}
+.kpi .hint{color:var(--mut);font-size:12.5px}
+.blue{color:#7cc0ff}.red{color:var(--bad)}.amber{color:var(--warn)}.green{color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;backdrop-filter:blur(18px)}
+.scroll{overflow-x:auto;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:10px 9px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+td.num,th.num{text-align:right;font-family:"JetBrains Mono",monospace}
+tbody tr:last-child td{border-bottom:none}
+bar{display:block}
+.bar{height:9px;border-radius:8px;background:rgba(120,160,220,.12);overflow:hidden;margin-top:7px}
+.bar>i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#4da3ff,#7c5cff)}
+.note{color:var(--mut);font-size:13.5px;line-height:1.62}
+svg{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--mut);font-size:13px;margin-top:12px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:7px;vertical-align:middle}
+footer{color:var(--mut);font-size:13px;margin-top:64px;border-top:1px solid var(--line);padding-top:20px}
+@media(max-width:640px){.wrap{padding:22px 14px 70px}h1{letter-spacing:-1px}.card{padding:16px}.kpi{padding:15px}th,td{padding:9px 6px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../">← Назад до «Небо над Україною»</a>
+<div class="badge"><i></i>Окрема сторінка · дані з відкритих джерел</div>
+<h1>Вінницька <span class="g">область</span></h1>
+<p class="lede">Повітряні тривоги за 2022–2025 роки: скільки, коли і як довго. Дані — офіційний датасет повітряних тривог (унікальні тривоги обласного рівня).</p>
+
+<section>
+  <div class="grid">
+    <div class="kpi"><div class="lbl">Усього тривог</div><div class="v blue" id="k1">—</div><div class="hint">бер 2022 – лис 2025</div></div>
+    <div class="kpi"><div class="lbl">Середня тривалість</div><div class="v amber" id="k2">—</div><div class="hint">хвилин на тривогу</div></div>
+    <div class="kpi"><div class="lbl">Найдовша тривога</div><div class="v red" id="k3">—</div><div class="hint">годин поспіль</div></div>
+    <div class="kpi"><div class="lbl">Пік активності</div><div class="v green" id="k4">—</div><div class="hint" id="k4h"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Тривоги за місяцями</h2>
+  <div class="card">
+    <svg id="cMonth" viewBox="0 0 960 340" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="legend"><span><i class="dot" style="background:#4da3ff"></i>Кількість тривог за місяць</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>За роками</h2>
+  <div class="card"><div id="years"></div></div>
+</section>
+
+<section>
+  <h2>У які години звучить тривога</h2>
+  <div class="card">
+    <p class="note" style="margin:0 0 14px">Київський час. Пік — ніч і ранок, коли найчастіше заходять дрони та ракети.</p>
+    <svg id="cHour" viewBox="0 0 960 300" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+</section>
+
+<section>
+  <h2>Уся таблиця по місяцях</h2>
+  <div class="card"><div class="scroll"><table id="tbl"></table></div></div>
+</section>
+
+<footer>
+  Джерело: офіційний датасет повітряних тривог (Vadimkin/ukrainian-air-raid-sirens-dataset, MIT).<br>
+  Сторінка оновлюється автоматично разом з основним дашбордом. Слава Україні 🇺🇦
+</footer>
+</div>
+<script>
+const D={"total": 1482, "byYear": {"2022": 414, "2023": 314, "2024": 462, "2025": 292}, "avgMin": 79.8, "maxH": 11.7, "months": [["2022-03", 61], ["2022-04", 59], ["2022-05", 57], ["2022-06", 43], ["2022-07", 29], ["2022-08", 46], ["2022-09", 28], ["2022-10", 47], ["2022-11", 21], ["2022-12", 23], ["2023-01", 15], ["2023-02", 23], ["2023-03", 25], ["2023-04", 8], ["2023-05", 29], ["2023-06", 23], ["2023-07", 22], ["2023-08", 44], ["2023-09", 27], ["2023-10", 17], ["2023-11", 25], ["2023-12", 56], ["2024-01", 40], ["2024-02", 24], ["2024-03", 36], ["2024-04", 31], ["2024-05", 49], ["2024-06", 40], ["2024-07", 44], ["2024-08", 36], ["2024-09", 38], ["2024-10", 54], ["2024-11", 35], ["2024-12", 35], ["2025-01", 39], ["2025-02", 40], ["2025-03", 32], ["2025-04", 37], ["2025-05", 34], ["2025-06", 24], ["2025-07", 37], ["2025-08", 17], ["2025-09", 14], ["2025-10", 15], ["2025-11", 3]], "byHour": [94, 115, 78, 69, 61, 50, 38, 48, 33, 47, 62, 60, 64, 87, 52, 55, 50, 49, 54, 54, 52, 65, 63, 82]};
+const f=n=>n.toLocaleString("uk-UA");
+const el=document.getElementById;
+el("k1").textContent=f(D.total);
+el("k2").textContent=D.avgMin;
+el("k3").textContent=D.maxH;
+let ph=0; D.byHour.forEach((v,i)=>{if(v>D.byHour[ph])ph=i;});
+el("k4").textContent=String(ph).padStart(2,"0")+":00";
+el("k4h").textContent="найчастіше тривога починається";
+
+const NS="http://www.w3.org/2000/svg";
+function mk(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+
+// monthly chart
+(function(){
+  const svg=el("cMonth"),W=960,H=340,pad={l:56,r:20,t:20,b:44};
+  const d=D.months, n=d.length, iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+  const mx=Math.max(...d.map(x=>x[1]));
+  const X=i=>pad.l+iw*i/(n-1), Y=v=>pad.t+ih-ih*v/mx;
+  svg.innerHTML="";
+  const defs=mk("defs");const g=mk("linearGradient",{id:"gg",x1:0,y1:0,x2:0,y2:1});
+  g.appendChild(mk("stop",{offset:"0%","stop-color":"#4da3ff","stop-opacity":.35}));
+  g.appendChild(mk("stop",{offset:"100%","stop-color":"#4da3ff","stop-opacity":0}));
+  defs.appendChild(g);svg.appendChild(defs);
+  for(let i=0;i<=4;i++){const y=pad.t+ih*i/4;
+    svg.appendChild(mk("line",{x1:pad.l,y1:y,x2:W-pad.r,y2:y,stroke:"rgba(120,160,220,.13)"}));
+    const t=mk("text",{x:pad.l-10,y:y+4,fill:"#8296b0","font-size":11,"text-anchor":"end"});t.textContent=Math.round(mx*(1-i/4));svg.appendChild(t);}
+  const pts=d.map((x,i)=>[X(i),Y(x[1])]);
+  let dd="M"+pts.map(p=>p.join(",")).join(" L")+" L"+X(n-1)+","+(pad.t+ih)+" L"+X(0)+","+(pad.t+ih)+" Z";
+  svg.appendChild(mk("path",{d:dd,fill:"url(#gg)"}));
+  svg.appendChild(mk("path",{d:"M"+pts.map(p=>p.join(",")).join(" L"),fill:"none",stroke:"#4da3ff","stroke-width":2.4,"stroke-linecap":"round"}));
+  const every=Math.ceil(n/12);
+  d.forEach((x,i)=>{if(i%every)return;const t=mk("text",{x:X(i),y:H-14,fill:"#8296b0","font-size":10.5,"text-anchor":"middle"});t.textContent=x[0];svg.appendChild(t);});
+})();
+
+// years
+(function(){
+  const mx=Math.max(...Object.values(D.byYear));
+  el("years").innerHTML=Object.entries(D.byYear).map(([y,v])=>
+   "<div style='padding:12px 0;border-bottom:1px solid rgba(120,160,220,.14)'><div style='display:flex;justify-content:space-between'><b>"+y+"</b><span style='font-family:JetBrains Mono,monospace;color:#7cc0ff'>"+f(v)+"</span></div><div class='bar'><i style='width:"+(100*v/mx).toFixed(0)+"%'></i></div></div>").join("");
+})();
+
+// hourly bars
+(function(){
+  const svg=el("cHour"),W=960,H=300,pad={l:56,r:20,t:20,b:40};
+  const d=D.byHour,n=24,iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+  const mx=Math.max(...d);
+  svg.innerHTML="";
+  for(let i=0;i<=4;i++){const y=pad.t+ih*i/4;
+    svg.appendChild(mk("line",{x1:pad.l,y1:y,x2:W-pad.r,y2:y,stroke:"rgba(120,160,220,.13)"}));
+    const t=mk("text",{x:pad.l-10,y:y+4,fill:"#8296b0","font-size":11,"text-anchor":"end"});t.textContent=Math.round(mx*(1-i/4));svg.appendChild(t);}
+  const bw=iw/n*0.62;
+  d.forEach((v,i)=>{const x=pad.l+iw*i/n+iw/n*0.19,h=ih*v/mx;
+    svg.appendChild(mk("rect",{x:x,y:pad.t+ih-h,width:bw,height:h,rx:3,fill:v===mx?"#ff4d6d":"#4da3ff","fill-opacity":v===mx?1:.75}));
+    if(i%3===0){const t=mk("text",{x:x+bw/2,y:H-14,fill:"#8296b0","font-size":10.5,"text-anchor":"middle"});t.textContent=String(i).padStart(2,"0");svg.appendChild(t);}});
+})();
+
+// table
+(function(){
+  const t=el("tbl");
+  t.innerHTML="<thead><tr><th>Місяць</th><th class='num'>Тривог</th><th style='width:45%'>Відносно піку</th></tr></thead><tbody>"+
+   D.months.slice().reverse().map(([m,v])=>{const mx=Math.max(...D.months.map(x=>x[1]));
+    return "<tr><td style='font-family:JetBrains Mono,monospace'>"+m+"</td><td class='num'>"+f(v)+"</td><td><div class='bar'><i style='width:"+(100*v/mx).toFixed(0)+"%'></i></div></td></tr>";}).join("")+"</tbody>";
+})();
+</script>
+</body>
+</html>
